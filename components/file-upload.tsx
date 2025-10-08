@@ -98,10 +98,13 @@ export function FileUpload({
     return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
   };
 
+  const { ref: dropzoneRef, ...rootProps } = getRootProps();
+
   return (
     <div className={cn("w-full space-y-4", className)}>
       <motion.div
-        {...getRootProps()}
+        ref={dropzoneRef as any}
+        {...(rootProps as any)}
         className={cn(
           "relative cursor-pointer rounded-xl border-2 border-dashed border-border transition-all duration-300",
           isDragActive

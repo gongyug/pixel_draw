@@ -30,7 +30,7 @@ export async function getUserCredits(userId: string): Promise<number> {
     return 0;
   }
 
-  return data.credits_remaining || 0;
+  return (data as any).credits_remaining || 0;
 }
 
 /**
@@ -45,7 +45,7 @@ export async function deductCredits(userId: string, amount: number): Promise<boo
   const { error } = await supabaseService.rpc('deduct_user_credits', {
     p_user_id: userId,
     p_amount: amount,
-  });
+  } as never);
 
   if (error) {
     console.error(`扣除用户 ${userId} 积分失败:`, error);

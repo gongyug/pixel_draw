@@ -15,8 +15,8 @@ class TaskManager {
         user_id: payload.userId,
         task_type: payload.taskType,
         status: 'pending',
-        parameters: payload.input,
-      })
+        input_data: payload.input,
+      } as never)
       .select('id')
       .single();
 
@@ -24,7 +24,7 @@ class TaskManager {
       console.error('Failed to create task', error);
       return null;
     }
-    return data?.id;
+    return (data as any)?.id;
   }
 
   async updateTaskStatus(taskId: string, status: 'processing' | 'completed' | 'failed', result?: Record<string, any>, creditsUsed?: number, errorMessage?: string) {
@@ -32,11 +32,9 @@ class TaskManager {
       .from('tasks')
       .update({
         status,
-        result: result,
+        output_data: result,
         credits_used: creditsUsed,
-        error_message: errorMessage,
-        completed_at: new Date().toISOString(),
-      })
+      } as never)
       .eq('id', taskId);
 
     if (error) {

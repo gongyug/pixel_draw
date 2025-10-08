@@ -152,7 +152,7 @@ export function CustomUserMenu() {
                   className="object-cover"
                 />
                 <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs font-semibold">
-                  {displayUser!.firstName?.charAt(0) || displayUser!.email?.charAt(0).toUpperCase() || 'U'}
+                  {displayUser!.firstName?.charAt(0) || (('email' in displayUser!) ? displayUser!.email?.charAt(0).toUpperCase() : 'U') || 'U'}
                 </AvatarFallback>
               </Avatar>
             </Button>
@@ -162,7 +162,7 @@ export function CustomUserMenu() {
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">{displayUser!.fullName || '用户'}</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  {displayUser!.email}
+                  {('email' in displayUser!) ? displayUser!.email : user?.emailAddresses[0]?.emailAddress}
                 </p>
               </div>
             </DropdownMenuLabel>

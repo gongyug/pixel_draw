@@ -27,7 +27,7 @@ const pathToTaskType: Record<string, TaskType> = {
   '/api/compress': 'compress',
 };
 
-export default clerkMiddleware((auth, req) => {
+export default clerkMiddleware(async (auth, req) => {
   // Webhook 路由直接放行，不需要认证
   if (isPublicRoute(req)) {
     return NextResponse.next();
@@ -35,7 +35,7 @@ export default clerkMiddleware((auth, req) => {
 
   // 只在需要检查积分的 API 路由上执行逻辑
   if (isCreditRoute(req)) {
-    const { userId } = auth();
+    const { userId } = await auth();
     // 对于 API 路由，如果未认证，返回 401 错误
     if (!userId) {
       return new NextResponse(JSON.stringify({ error: '请先登录以使用此功能' }), { status: 401 });
@@ -47,20 +47,16 @@ export default clerkMiddleware((auth, req) => {
       return new NextResponse(JSON.stringify({ error: '无效的任务类型' }), { status: 400 });
     }
 
-    // Since hasEnoughCredits is async, we must handle the promise.
-    // We can use an async IIFE (Immediately Invoked Function Expression) to do this.
-    return (async () => {
-      const canProceed = await hasEnoughCredits(userId, taskType);
-      if (!canProceed) {
-        const required = TASK_CREDIT_COST[taskType];
-        return new NextResponse(
-          JSON.stringify({ error: `积分不足，当前任务需要 ${required} 积分` }),
-          { status: 429 } // 429 Too Many Requests is a fitting status for rate/credit limiting
-        );
-      }
-      // If credits are sufficient, allow the request to proceed to the API route handler.
-      return NextResponse.next();
-    })();
+    const canProceed = await hasEnoughCredits(userId, taskType);
+    if (!canProceed) {
+      const required = TASK_CREDIT_COST[taskType];
+      return new NextResponse(
+        JSON.stringify({ error: `积分不足，当前任务需要 ${required} 积分` }),
+        { status: 429 } // 429 Too Many Requests is a fitting status for rate/credit limiting
+      );
+    }
+    // If credits are sufficient, allow the request to proceed to the API route handler.
+    return NextResponse.next();
   }
 
   // For all other routes (including all pages), do nothing and let them pass through.

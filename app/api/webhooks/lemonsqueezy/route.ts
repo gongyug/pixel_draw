@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
             p_type: 'purchase',
             p_description: `购买 ${pkg.name}`,
             p_order_id: orderId.toString(),
-          });
+          } as never);
 
           if (error) {
             console.error('增加积分失败:', error);
@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
         }
 
         // 扣除退款的积分（如果用户有足够余额）
-        const refundAmount = transaction.amount;
+        const refundAmount = (transaction as any).amount;
 
         const { error: refundError } = await supabaseService.rpc('add_user_credits', {
           p_user_id: user_id,
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
           p_type: 'refund',
           p_description: `订单 ${orderId} 退款`,
           p_order_id: orderId.toString(),
-        });
+        } as never);
 
         if (refundError) {
           console.error('处理退款失败:', refundError);

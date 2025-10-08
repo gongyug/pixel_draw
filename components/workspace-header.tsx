@@ -174,3 +174,4 @@ export function WorkspaceHeader({ onMobileMenuToggle }: WorkspaceHeaderProps) {
       </div>
     </header>
   );
+}
