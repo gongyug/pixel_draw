@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
+import { useTranslations } from 'next-intl';
 import {
   LayoutDashboard,
   Zap,
@@ -18,6 +19,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { apiGet } from '@/lib/api';
 import { CustomUserMenu } from '@/components/custom-user-menu';
 

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 import { AuthModalProvider } from "@/contexts/auth-modal-context";
 import "./globals.css";
 
@@ -15,15 +17,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PixelDraw - AI 驱动的图片处理平台",
-  description: "智能图片压缩、AI 抠图、内容识别、AI 生成图像",
+  title: "PixelDraw - AI-Powered Image Processing Platform",
+  description: "Smart image compression, AI background removal, content recognition, AI image generation",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <ClerkProvider
       dynamic
@@ -33,13 +38,15 @@ export default function RootLayout({
         },
       }}
     >
-      <html lang="zh-CN">
+      <html lang={locale}>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <AuthModalProvider>
-            {children}
-          </AuthModalProvider>
+          <NextIntlClientProvider messages={messages} locale={locale}>
+            <AuthModalProvider>
+              {children}
+            </AuthModalProvider>
+          </NextIntlClientProvider>
         </body>
       </html>
     </ClerkProvider>

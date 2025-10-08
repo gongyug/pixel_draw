@@ -1,11 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { SignedIn, SignedOut } from '@clerk/nextjs';
 import { CustomUserMenu } from '@/components/custom-user-menu';
+import { LanguageSwitcher } from '@/components/language-switcher';
 
 export function MarketingHeader() {
+  const t = useTranslations('nav');
+
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -18,18 +22,19 @@ export function MarketingHeader() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <LanguageSwitcher />
           <SignedOut>
-            <Button variant="ghost" asChild>
-              <Link href="/sign-in">登录</Link>
+            <Button variant="ghost" asChild className="hidden sm:inline-flex">
+              <Link href="/sign-in">{t('signIn')}</Link>
             </Button>
             <Button asChild>
-              <Link href="/sign-up">立即注册</Link>
+              <Link href="/sign-up">{t('signUp')}</Link>
             </Button>
           </SignedOut>
           <SignedIn>
-            <Button variant="outline" asChild>
-                <Link href="/dashboard">进入工作台</Link>
+            <Button variant="outline" asChild className="hidden sm:inline-flex">
+                <Link href="/dashboard">{t('dashboard')}</Link>
             </Button>
             <CustomUserMenu />
           </SignedIn>

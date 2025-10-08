@@ -1,0 +1,137 @@
+{
+  "common": {
+    "appName": "PixelDraw",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "compress": "Compress",
+    "removeBg": "Remove Background",
+    "recognize": "Recognition",
+    "generate": "AI Generate",
+    "credits": "Credits",
+    "creditHistory": "Credit History",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "account": "Account",
+    "settings": "Settings"
+  },
+  "home": {
+    "title": "AI-Powered Image Processing Tools",
+    "subtitle": "Compress, Remove Background, Recognize, Generate - All-in-One Solution",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "features": {
+      "compress": {
+        "title": "Smart Compression",
+        "description": "Reduce file size while maintaining quality"
+      },
+      "removeBg": {
+        "title": "Background Removal",
+        "description": "Remove backgrounds with one click, batch processing supported"
+      },
+      "recognize": {
+        "title": "Image Recognition",
+        "description": "AI-powered content recognition and text extraction"
+      },
+      "generate": {
+        "title": "AI Generation",
+        "description": "Text to image, create unlimited possibilities"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome Back",
+    "quickActions": "Quick Actions",
+    "recentTasks": "Recent Tasks",
+    "stats": {
+      "totalTasks": "Total Tasks",
+      "creditsUsed": "Credits Used",
+      "creditsRemaining": "Credits Remaining"
+    }
+  },
+  "compress": {
+    "title": "Image Compression",
+    "description": "Compress images while maintaining quality",
+    "upload": "Upload Image",
+    "quality": "Quality",
+    "originalSize": "Original Size",
+    "compressedSize": "Compressed Size",
+    "download": "Download Compressed"
+  },
+  "removeBg": {
+    "title": "Background Removal",
+    "description": "Remove image background with one click",
+    "upload": "Upload Image",
+    "processing": "Processing...",
+    "download": "Download Result",
+    "compare": "Compare View"
+  },
+  "recognize": {
+    "title": "Image Recognition",
+    "description": "AI-powered image content recognition",
+    "upload": "Upload Image",
+    "analyzing": "Analyzing...",
+    "result": "Recognition Result",
+    "confidence": "Confidence"
+  },
+  "generate": {
+    "title": "AI Image Generation",
+    "description": "Text to image generation",
+    "prompt": "Describe your desired image",
+    "promptPlaceholder": "e.g., A cute cat playing in a garden",
+    "style": "Style",
+    "size": "Size",
+    "generate": "Generate Image",
+    "generating": "Generating...",
+    "download": "Download Image"
+  },
+  "credits": {
+    "title": "Credits Center",
+    "balance": "Current Balance",
+    "buyCredits": "Buy Credits",
+    "packages": "Credit Packages",
+    "history": "Credit History",
+    "transaction": {
+      "initial_grant": "New User Registration Reward",
+      "purchase": "Credit Purchase",
+      "refund": "Refund",
+      "task_usage": "Task Consumption"
+    }
+  },
+  "user": {
+    "profile": "Profile",
+    "account": "Account Settings",
+    "credits": "My Credits",
+    "history": "Usage History",
+    "logout": "Logout"
+  },
+  "errors": {
+    "uploadFailed": "Upload Failed",
+    "processingFailed": "Processing Failed",
+    "networkError": "Network Error",
+    "insufficientCredits": "Insufficient Credits",
+    "invalidFile": "Invalid File Format",
+    "fileTooLarge": "File Too Large",
+    "loginRequired": "Please Sign In"
+  },
+  "success": {
+    "uploadSuccess": "Upload Successful",
+    "processingComplete": "Processing Complete",
+    "creditsPurchased": "Credits Purchased Successfully"
+  }
+}

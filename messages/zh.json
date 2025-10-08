@@ -1,0 +1,137 @@
+{
+  "common": {
+    "appName": "PixelDraw",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "back": "返回",
+    "next": "下一步",
+    "submit": "提交",
+    "search": "搜索"
+  },
+  "nav": {
+    "home": "首页",
+    "dashboard": "工作台",
+    "compress": "图片压缩",
+    "removeBg": "背景移除",
+    "recognize": "图片识别",
+    "generate": "AI 生图",
+    "credits": "积分中心",
+    "creditHistory": "积分历史",
+    "signIn": "登录",
+    "signUp": "注册",
+    "signOut": "退出登录",
+    "account": "账户",
+    "settings": "设置"
+  },
+  "home": {
+    "title": "AI 驱动的图片处理工具",
+    "subtitle": "压缩、去背景、识别、生成 - 一站式图片处理解决方案",
+    "getStarted": "立即开始",
+    "learnMore": "了解更多",
+    "features": {
+      "compress": {
+        "title": "智能压缩",
+        "description": "在保持图片质量的同时减小文件大小"
+      },
+      "removeBg": {
+        "title": "背景移除",
+        "description": "一键移除图片背景，支持批量处理"
+      },
+      "recognize": {
+        "title": "图片识别",
+        "description": "AI 识别图片内容，提取文字信息"
+      },
+      "generate": {
+        "title": "AI 生图",
+        "description": "文字转图片，创造无限可能"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "工作台",
+    "welcome": "欢迎回来",
+    "quickActions": "快捷操作",
+    "recentTasks": "最近任务",
+    "stats": {
+      "totalTasks": "总任务数",
+      "creditsUsed": "已用积分",
+      "creditsRemaining": "剩余积分"
+    }
+  },
+  "compress": {
+    "title": "图片压缩",
+    "description": "压缩图片大小，保持清晰度",
+    "upload": "上传图片",
+    "quality": "压缩质量",
+    "originalSize": "原始大小",
+    "compressedSize": "压缩后大小",
+    "download": "下载压缩图片"
+  },
+  "removeBg": {
+    "title": "背景移除",
+    "description": "一键移除图片背景",
+    "upload": "上传图片",
+    "processing": "处理中...",
+    "download": "下载结果",
+    "compare": "对比查看"
+  },
+  "recognize": {
+    "title": "图片识别",
+    "description": "AI 识别图片内容",
+    "upload": "上传图片",
+    "analyzing": "分析中...",
+    "result": "识别结果",
+    "confidence": "置信度"
+  },
+  "generate": {
+    "title": "AI 生图",
+    "description": "文字转图片",
+    "prompt": "描述你想要的图片",
+    "promptPlaceholder": "例如：一只可爱的猫咪在花园里玩耍",
+    "style": "风格",
+    "size": "尺寸",
+    "generate": "生成图片",
+    "generating": "生成中...",
+    "download": "下载图片"
+  },
+  "credits": {
+    "title": "积分中心",
+    "balance": "当前积分",
+    "buyCredits": "购买积分",
+    "packages": "积分套餐",
+    "history": "积分历史",
+    "transaction": {
+      "initial_grant": "新用户注册奖励",
+      "purchase": "购买积分",
+      "refund": "退款",
+      "task_usage": "任务消耗"
+    }
+  },
+  "user": {
+    "profile": "个人资料",
+    "account": "账户设置",
+    "credits": "我的积分",
+    "history": "使用历史",
+    "logout": "退出登录"
+  },
+  "errors": {
+    "uploadFailed": "上传失败",
+    "processingFailed": "处理失败",
+    "networkError": "网络错误",
+    "insufficientCredits": "积分不足",
+    "invalidFile": "无效的文件格式",
+    "fileTooLarge": "文件过大",
+    "loginRequired": "请先登录"
+  },
+  "success": {
+    "uploadSuccess": "上传成功",
+    "processingComplete": "处理完成",
+    "creditsPurchased": "积分购买成功"
+  }
+}
