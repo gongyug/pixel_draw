@@ -84,8 +84,8 @@ export function AuthPage({ mode: initialMode }: AuthPageProps) {
                   footerActionLink: 'text-primary hover:text-primary/80',
                 },
               }}
-              routing="virtual"
-              signInUrl="#"
+              signInUrl="/sign-in"
+              forceRedirectUrl="/dashboard"
             />
           ) : (
             <SignIn
@@ -100,8 +100,8 @@ export function AuthPage({ mode: initialMode }: AuthPageProps) {
                   footerActionLink: 'text-primary hover:text-primary/80',
                 },
               }}
-              routing="virtual"
-              signUpUrl="#"
+              signUpUrl="/sign-up"
+              forceRedirectUrl="/dashboard"
             />
           )}
         </div>

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useAuth } from '@clerk/nextjs';
 import {
   LayoutDashboard,
   Zap,
@@ -17,9 +16,8 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useEffect, useState } from 'react';
-import { apiGet } from '@/lib/api';
 import { CustomUserMenu } from '@/components/custom-user-menu';
+import { useUserCredits } from '@/hooks/use-user-credits';
 
 const navigation = [
   {
@@ -65,28 +63,7 @@ interface WorkspaceHeaderProps {
 
 export function WorkspaceHeader({ onMobileMenuToggle }: WorkspaceHeaderProps) {
   const pathname = usePathname();
-  const { isLoaded, isSignedIn } = useAuth();
-  const [credits, setCredits] = useState<number | null>(null);
-
-  useEffect(() => {
-    const fetchCredits = async () => {
-      try {
-        const response = await apiGet('/api/user-credits');
-        if (response.ok) {
-          const data = await response.json();
-          setCredits(data.credits);
-        }
-      } catch (error) {
-        // apiGet 会自动处理 401 错误并重定向
-        console.error('Error fetching credits:', error);
-      }
-    };
-    if (isLoaded && isSignedIn) {
-      fetchCredits();
-    } else if (isLoaded && !isSignedIn) {
-      setCredits(0);
-    }
-  }, [isLoaded, isSignedIn]);
+  const { credits } = useUserCredits();
 
   return (
     <header className="sticky top-0 z-30 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -137,7 +114,7 @@ export function WorkspaceHeader({ onMobileMenuToggle }: WorkspaceHeaderProps) {
 
         {/* Right Side Actions */}
         <div className="ml-auto flex items-center gap-4">
-          {isSignedIn && credits !== null && (
+          {credits !== null && (
             <div className="flex items-center gap-2">
               <Link
                 href="/credits"

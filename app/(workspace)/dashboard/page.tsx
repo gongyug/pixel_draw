@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
@@ -14,72 +13,20 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
-import { apiGet } from "@/lib/api";
-
-interface TaskStats {
-  compress: number;
-  removeBg: number;
-  recognize: number;
-  generate: number;
-  total: number;
-}
-
-interface RecentTask {
-  id: string;
-  type: 'compress' | 'remove-bg' | 'recognize' | 'generate';
-  timestamp: string;
-  status: 'success' | 'failed';
-  creditsUsed: number;
-}
+import { useUserTasks } from "@/hooks/use-user-tasks";
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
-  const [stats, setStats] = useState<TaskStats>({
-    compress: 0,
-    removeBg: 0,
-    recognize: 0,
-    generate: 0,
-    total: 0,
-  });
-  const [recentTasks, setRecentTasks] = useState<RecentTask[]>([]);
+  const { tasks, isLoading: tasksLoading } = useUserTasks();
 
-  useEffect(() => {
-    // 从 localStorage 加载统计数据
-    const loadStats = () => {
-      const savedStats = localStorage.getItem('pixeldraw_stats');
-      if (savedStats) {
-        setStats(JSON.parse(savedStats));
-      }
-    };
-
-    const fetchRecentTasks = async () => {
-      try {
-        const response = await apiGet('/api/user-tasks');
-        if (response.ok) {
-          const data = await response.json();
-          setRecentTasks(data.tasks);
-        }
-      } catch (error) {
-        // apiGet 会自动处理 401 错误并重定向
-        console.error('Error fetching recent tasks:', error);
-      }
-    };
-
-    loadStats();
-    fetchRecentTasks();
-
-    // 监听统计更新事件
-    const handleStatsUpdate = () => {
-      loadStats();
-      fetchRecentTasks();
-    };
-
-    window.addEventListener('pixeldraw_stats_updated', handleStatsUpdate);
-
-    return () => {
-      window.removeEventListener('pixeldraw_stats_updated', handleStatsUpdate);
-    };
-  }, []);
+  // 从任务列表计算统计数据
+  const stats = {
+    compress: tasks.filter(t => t.type === 'compress').length,
+    removeBg: tasks.filter(t => t.type === 'remove-bg').length,
+    recognize: tasks.filter(t => t.type === 'recognize').length,
+    generate: tasks.filter(t => t.type === 'generate').length,
+    total: tasks.length,
+  };
 
   const features = [
     {
@@ -273,9 +220,14 @@ export default function DashboardPage() {
           <h2 className="text-xl font-semibold">最近活动</h2>
           <Clock className="h-5 w-5 text-muted-foreground" />
         </div>
-        {recentTasks.length > 0 ? (
+        {tasksLoading ? (
+          <div className="flex flex-col items-center justify-center py-12 text-sm text-muted-foreground">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600" />
+            <p className="mt-4">加载中...</p>
+          </div>
+        ) : tasks.length > 0 ? (
           <div className="space-y-3">
-            {recentTasks.slice(0, 10).map((task) => {
+            {tasks.slice(0, 10).map((task) => {
               const Icon = taskTypeIcons[task.type];
               return (
                 <div

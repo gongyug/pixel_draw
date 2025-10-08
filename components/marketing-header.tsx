@@ -18,7 +18,7 @@ export function MarketingHeader() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <SignedOut>
             <Button variant="ghost" asChild>
               <Link href="/sign-in">登录</Link>
@@ -28,9 +28,6 @@ export function MarketingHeader() {
             </Button>
           </SignedOut>
           <SignedIn>
-            <Button variant="outline" asChild>
-                <Link href="/dashboard">进入工作台</Link>
-            </Button>
             <CustomUserMenu />
           </SignedIn>
         </div>
