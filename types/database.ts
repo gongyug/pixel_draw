@@ -1,5 +1,13 @@
 export type TaskType = 'compress' | 'remove_bg' | 'recognize' | 'generate';
 
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
 export interface Database {
   public: {
     Tables: {
@@ -34,6 +42,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       credit_transactions: {
         Row: {
@@ -63,6 +72,15 @@ export interface Database {
           order_id?: string | null;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "credit_transactions_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       tasks: {
         Row: {
@@ -70,8 +88,8 @@ export interface Database {
           user_id: string;
           task_type: TaskType;
           status: string;
-          input_data: any;
-          output_data: any;
+          input_data: Json | null;
+          output_data: Json | null;
           credits_used: number;
           created_at: string;
           updated_at: string;
@@ -81,8 +99,8 @@ export interface Database {
           user_id: string;
           task_type: TaskType;
           status?: string;
-          input_data?: any;
-          output_data?: any;
+          input_data?: Json | null;
+          output_data?: Json | null;
           credits_used?: number;
           created_at?: string;
           updated_at?: string;
@@ -92,13 +110,25 @@ export interface Database {
           user_id?: string;
           task_type?: TaskType;
           status?: string;
-          input_data?: any;
-          output_data?: any;
+          input_data?: Json | null;
+          output_data?: Json | null;
           credits_used?: number;
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "tasks_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
       };
+    };
+    Views: {
+      [_ in never]: never;
     };
     Functions: {
       deduct_user_credits: {
@@ -118,6 +148,12 @@ export interface Database {
         };
         Returns: void;
       };
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
     };
   };
 }
