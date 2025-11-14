@@ -1,7 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import { hasEnoughCredits, TASK_CREDIT_COST } from './lib/quota';
-import { TaskType } from './types/database';
 
 // 定义公开访问的路由（Marketing页面 + Webhooks + 认证页面）
 const isPublicRoute = createRouteMatcher([
@@ -24,21 +22,17 @@ const isWorkspaceRoute = createRouteMatcher([
   '/user-profile(.*)',
 ]);
 
-// 定义需要检查积分的 API 路由（消耗积分的操作）
-const isCreditRoute = createRouteMatcher([
+// 定义需要认证的 API 路由
+const isProtectedApiRoute = createRouteMatcher([
   '/api/remove-bg',
   '/api/recognize',
   '/api/generate',
   '/api/compress',
+  '/api/user-credits',
+  '/api/user-tasks',
+  '/api/credit-history',
+  '/api/checkout',
 ]);
-
-// 路由到任务类型的映射
-const pathToTaskType: Record<string, TaskType> = {
-  '/api/remove-bg': 'remove_bg',
-  '/api/recognize': 'recognize',
-  '/api/generate': 'generate',
-  '/api/compress': 'compress',
-};
 
 export default clerkMiddleware(async (auth, req) => {
   // 公开路由直接放行
@@ -56,26 +50,16 @@ export default clerkMiddleware(async (auth, req) => {
     }
   }
 
-  // 检查积分的 API 路由
-  if (isCreditRoute(req)) {
+  // 保护 API 路由 - 需要认证
+  if (isProtectedApiRoute(req)) {
     const { userId } = await auth();
-    // 对于 API 路由，如果未认证，返回 401 错误
     if (!userId) {
-      return new NextResponse(JSON.stringify({ error: '请先登录以使用此功能' }), { status: 401 });
-    }
-
-    const taskType = pathToTaskType[req.nextUrl.pathname];
-    if (!taskType) {
-      return new NextResponse(JSON.stringify({ error: '无效的任务类型' }), { status: 400 });
-    }
-
-    // 检查积分是否足够
-    const canProceed = await hasEnoughCredits(userId, taskType);
-    if (!canProceed) {
-      const required = TASK_CREDIT_COST[taskType];
       return new NextResponse(
-        JSON.stringify({ error: `积分不足，当前任务需要 ${required} 积分` }),
-        { status: 429 }
+        JSON.stringify({ error: '请先登录以使用此功能' }),
+        {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
   }
