@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
             p_type: 'purchase',
             p_description: `购买 ${pkg.name}`,
             p_order_id: orderId.toString(),
-          } as never);
+          });
 
           if (error) {
             console.error('增加积分失败:', error);
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
           p_type: 'refund',
           p_description: `订单 ${orderId} 退款`,
           p_order_id: orderId.toString(),
-        } as never);
+        });
 
         if (refundError) {
           console.error('处理退款失败:', refundError);

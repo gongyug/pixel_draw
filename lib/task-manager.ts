@@ -16,7 +16,7 @@ class TaskManager {
         task_type: payload.taskType,
         status: 'pending',
         input_data: payload.input,
-      } as never)
+      })
       .select('id')
       .single();
 
@@ -34,7 +34,7 @@ class TaskManager {
         status,
         output_data: result,
         credits_used: creditsUsed,
-      } as never)
+      })
       .eq('id', taskId);
 
     if (error) {

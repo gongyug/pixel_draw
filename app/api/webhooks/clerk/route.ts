@@ -72,18 +72,16 @@ export async function POST(req: Request) {
 
     try {
       // 同步用户到 Supabase
-      const userData: Database['public']['Tables']['users']['Insert'] = {
-        id: id,
-        email: primaryEmail.email_address,
-        name: first_name && last_name ? `${first_name} ${last_name}` : first_name || last_name || null,
-        avatar_url: image_url || null,
-        plan_type: 'free',
-        credits_remaining: INITIAL_CREDITS,
-      };
-
       const { data, error } = await supabaseService
         .from('users')
-        .upsert(userData as never, {
+        .upsert({
+          id: id,
+          email: primaryEmail.email_address,
+          name: first_name && last_name ? `${first_name} ${last_name}` : first_name || last_name || null,
+          avatar_url: image_url || null,
+          plan_type: 'free',
+          credits_remaining: INITIAL_CREDITS,
+        }, {
           onConflict: 'id',
         })
         .select()
@@ -97,14 +95,12 @@ export async function POST(req: Request) {
       console.log('用户同步成功，赋予初始积分:', data);
 
       // 记录积分变动
-      const creditTransaction: Database['public']['Tables']['credit_transactions']['Insert'] = {
+      await supabaseService.from('credit_transactions').insert({
         user_id: id,
         amount: INITIAL_CREDITS,
         type: 'initial_grant',
         description: '新用户注册奖励',
-      };
-
-      await supabaseService.from('credit_transactions').insert(creditTransaction as never);
+      });
 
     } catch (error) {
       console.error('处理用户创建事件失败:', error);
@@ -125,15 +121,13 @@ export async function POST(req: Request) {
 
     try {
       // 更新用户信息
-      const updateData: Database['public']['Tables']['users']['Update'] = {
-        email: primaryEmail.email_address,
-        name: first_name && last_name ? `${first_name} ${last_name}` : first_name || last_name || null,
-        avatar_url: image_url || null,
-      };
-
       await supabaseService
         .from('users')
-        .update(updateData as never)
+        .update({
+          email: primaryEmail.email_address,
+          name: first_name && last_name ? `${first_name} ${last_name}` : first_name || last_name || null,
+          avatar_url: image_url || null,
+        })
         .eq('id', id);
 
       console.log('用户信息更新成功:', id);
